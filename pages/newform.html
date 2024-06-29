@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="newform.css" />
+  </head>
+  <body>
+    <h1>Registration form</h1>
+    <form method="post" action="/register" id="loginform">
+      <div class="form-control">
+        <span>Name </span>
+        <input
+          type="text"
+          name="name"
+          id="username"
+          placeholder="Enter Your Name"
+        /><br />
+        <small>Error Message</small><br />
+      </div>
+      <div class="form-control">
+        <span>Email </span>
+        <input
+          type="text"
+          name="email"
+          id="email"
+          placeholder="Enter Your Email"
+        /><br />
+        <small>Error Message</small><br />
+      </div>
+      <div class="form-control">
+        <span>Contact</span>
+        <input
+          type="number"
+          name="contact"
+          id="number"
+          placeholder="Enter Your Number"
+        /><br />
+        <small>Error Message</small><br />
+      </div>
+
+      <div class="form-control">
+        <span>Password </span>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Enter Your Password"
+        /><br />
+        <small>Error Message</small><br />
+      </div>
+
+      <div class="form-control">
+        <span> CPassword </span>
+        <input
+          type="password"
+          name="cpassword"
+          id="password1"
+          placeholder="Enter Your confirm Password"
+        /><br />
+        <small>Error Message</small><br />
+      </div>
+
+      <button type="submit">Register</button>
+    </form>
+    <script>
+      document
+        .getElementById("loginform")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          let isValid = true;
+
+          const username = document.getElementById("username");
+          const email = document.getElementById("email");
+          const number = document.getElementById("number");
+          const password = document.getElementById("password");
+          const password1 = document.getElementById("password1");
+
+          const usernameval = username.value.trim();
+          const emailval = email.value.trim();
+          const numberval = number.value.trim();
+          const passwordval = password.value.trim();
+          const password1val = password1.value.trim();
+
+          //validate username
+          if (usernameval === "") {
+            setErrormsg(username, "username cannot be blank");
+            isValid = false;
+          } else if (usernameval.length <= 3) {
+            setErrormsg(username, "username minimum 3 character");
+            isValid = false;
+          } else {
+            setSuccessMsg(username);
+          }
+
+          //more email Validation
+          const isEmail = (emailval) => {
+            var atSymbol = emailval.indexOf("@");
+            if (atSymbol < 1) return false;
+
+            var dot = emailval.lastIndexOf(".");
+            if (dot <= atSymbol + 2) return false;
+            if (dot === emailval.length - 1) return false;
+            return true;
+          };
+
+          //validate email
+          if (emailval === "") {
+            setErrormsg(email, "email cannot be blank");
+            isValid = false;
+          } else if (!isEmail(emailval)) {
+            setErrormsg(email, "Not a Vaild Email");
+            isValid = false;
+          } else {
+            setSuccessMsg(email);
+          }
+
+          //validate contact number
+          if (numberval === "") {
+            setErrormsg(number, "Number cannot be blank");
+            isValid = false;
+          } else if (numberval.length != 10) {
+            setErrormsg(number, "Not a Valid Number");
+            isValid = false;
+          } else {
+            setSuccessMsg(number);
+          }
+
+          //validate for Password
+          if (passwordval === "") {
+            setErrormsg(password, " Password cannot be blank");
+            isValid = false;
+          } else if (passwordval.length <= 5) {
+            setErrormsg(password, "minimum 6 character");
+            isValid = false;
+          } else {
+            setSuccessMsg(password);
+          }
+
+          //confirm Password
+          if (password1val === "") {
+            setErrormsg(password1, " Password cannot be blank");
+            isValid = false;
+          } else if (password1val !== passwordval) {
+            setErrormsg(password1, "please Enter Correct Password");
+            isValid = false;
+          } else {
+            setSuccessMsg(password1);
+          }
+
+          if (isValid) {
+            document.getElementById("loginform").submit();
+          }
+        });
+
+      function setErrormsg(input, errormsgs) {
+        const formControl = input.parentElement;
+        const small = formControl.querySelector("small");
+        formControl.className = "form-control error";
+        small.innerText = errormsgs;
+      }
+
+      function setSuccessMsg(input) {
+        const formControl = input.parentElement;
+        const small = formControl.querySelector("small");
+        formControl.className = "form-control success";
+        small.innerText = "correct";
+      }
+    </script>
+  </body>
+</html>
